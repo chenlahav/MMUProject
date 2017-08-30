@@ -6,7 +6,7 @@ public class Page<T>{
 	
 	public Page(Long id, T content){
 		this.setContent(content);
-		this.setId(id);
+		this.setPageId(id);
 	}
 	
 	public T getContent() {
@@ -17,11 +17,11 @@ public class Page<T>{
 		this.content = content;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getPageId() {
+		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setPageId(Long id) {
 		this.id = id;
 	}
 	
@@ -37,7 +37,6 @@ public class Page<T>{
 	
 	//TODO
 	public String toString(){
-		return "";
+		return this.getPageId().toString() + this.getContent().toString();
 	}
-	
 }
