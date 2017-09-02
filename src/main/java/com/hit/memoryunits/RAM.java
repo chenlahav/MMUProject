@@ -10,7 +10,7 @@ public class RAM {
 	
 	public RAM(int initialCapacity) {
 		this.setInitialCapacity(initialCapacity);
-		this.pagesMap = new HashMap<Long,Page<byte[]>>();
+		this.pagesMap = new HashMap<Long,Page<byte[]>>(initialCapacity);
 	}
 	
 	public void addPage(Page<byte[]> addPage){
@@ -61,5 +61,10 @@ public class RAM {
 	
 	public void setPages(Map<Long,Page<byte[]>> pages){
 		this.pagesMap = pages;
+	}
+	
+	public int getUsage()
+	{
+		return this.pagesMap.size();
 	}
 }
