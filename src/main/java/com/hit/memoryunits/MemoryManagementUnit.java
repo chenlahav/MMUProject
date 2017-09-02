@@ -19,7 +19,7 @@ public class MemoryManagementUnit {
 		HardDisk hd = HardDisk.getInstance();
 		Page<byte[]>[] pageToReturn = new Page[pageIds.length];
 		Page<byte[]> moveToHdPage = null;
-		Long idPage = null;
+		Long idPageReplace = null;
 		
 		for(int i=0; i<pageIds.length;i++)
 		{
@@ -27,18 +27,21 @@ public class MemoryManagementUnit {
 			{ 
 				//if RAM is not full
 				if(ram.getUsage()<=ram.getInitialCapacity())
+				{
+					algo.putElement(pageIds[i],pageIds[i]);
 					ram.addPage(hd.pageFault(pageIds[i]));
+				}
 				
 				//else: Do logic of full RAM
 				else
 				{
-					idPage = (algo.putElement(pageIds[i],pageIds[i]));
-					moveToHdPage = ram.getPage(idPage);
+					idPageReplace = algo.putElement(pageIds[i],pageIds[i]);
+					moveToHdPage = ram.getPage(idPageReplace);
 					ram.addPage(hd.pageReplacement(moveToHdPage, pageIds[i]));
 				}
 			}
-				pageToReturn[i] = ram.getPage(pageIds[i]);
+			pageToReturn[i] = ram.getPage(pageIds[i]);
 		}
-		return null;
+		return pageToReturn;
 	}
 }
