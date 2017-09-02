@@ -15,14 +15,12 @@ public class HardDisk {
 	
 	private void readFromDisk() throws FileNotFoundException, IOException{
 		ObjectInputStream in= new ObjectInputStream(new FileInputStream(DEFAULT_FILE_NAME));
-		for (int i=0; i<_SIZE; i++){
-			try{
-				this.pagesInDisk=(HashMap<Long,Page<byte[]>>)in.readObject();
-			}catch (Exception e) {
-				// TODO: handle exception
-			}finally {
-				in.close();
-			}
+		try{
+			this.pagesInDisk=(HashMap<Long,Page<byte[]>>)in.readObject();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			in.close();
 		}
 	}
 		
