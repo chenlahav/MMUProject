@@ -46,7 +46,7 @@ public class MemoryManagementUnitTest {
 			Page<byte[]> p2 = new Page<byte[]>((long)2,b2);
 			pagesInDisk.put(p2.getPageId(),p2);
 		
-		ObjectOutputStream out= new ObjectOutputStream(new FileOutputStream("src/main/resources/HardDisk_file"));
+		ObjectOutputStream out= new ObjectOutputStream(new FileOutputStream("HardDisk_file"));
 		
 		try{
 			out.writeObject(pagesInDisk);
