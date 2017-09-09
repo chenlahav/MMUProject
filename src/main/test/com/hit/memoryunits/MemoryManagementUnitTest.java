@@ -23,12 +23,15 @@ public class MemoryManagementUnitTest {
 		pagesToGet[0]=(long)1;
 		IAlgoCache<Long, Long> lru = new LRUAlgoCacheImpl<>(1);
 		MemoryManagementUnit mmu = new MemoryManagementUnit(1, lru);
+<<<<<<< Updated upstream
+=======
+		
+>>>>>>> Stashed changes
 		Page<byte[]>[] returnedPages= mmu.getPages(pagesToGet);
 		Assert.assertEquals((long)1, (long)returnedPages[0].getPageId());
 		
-		Long[] pagesToGet2 = new Long[1];
-		pagesToGet2[0] = (long)2;
-		returnedPages = mmu.getPages(pagesToGet2);
+		pagesToGet[0] = (long)2;
+		returnedPages = mmu.getPages(pagesToGet);
 		Assert.assertEquals((long)2, (long)returnedPages[0].getPageId());
 		
 	}	
