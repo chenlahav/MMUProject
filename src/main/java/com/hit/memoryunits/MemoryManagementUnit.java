@@ -11,7 +11,7 @@ public class MemoryManagementUnit {
 		this.algo=algo;
 		this.ram = new RAM(ramCapacity);
 	}
-	//TODO
+
 	public Page<byte[]>[] getPages(Long[] pageIds) throws IOException
 	{
 		HardDisk hd = HardDisk.getInstance();
