@@ -50,7 +50,17 @@ public class HardDisk {
 	
 	public Page<byte[]> pageReplacement(Page<byte[]> moveToHdPage, Long moveToRamId) throws FileNotFoundException, IOException{
 		readFromDisk();
-		this.pagesInDisk.put(moveToHdPage.getPageId(), moveToHdPage);
+		if(this.pagesInDisk.containsKey(moveToHdPage.getPageId())){
+			this.pagesInDisk.put(moveToHdPage.getPageId(), moveToHdPage);
+		}else{
+			if(this.pagesInDisk.size()<_SIZE){
+				this.pagesInDisk.put(moveToHdPage.getPageId(), moveToHdPage);
+			}
+			else{
+				//TODO handle exception
+			}
+		}
+		
 		writeToDisk();
 		Page<byte[]> currPage= pagesInDisk.get(moveToRamId);
 		

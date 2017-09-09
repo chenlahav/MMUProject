@@ -8,7 +8,6 @@ public class MemoryManagementUnit {
 	private RAM ram;
 	
 	public MemoryManagementUnit(int ramCapacity, IAlgoCache<Long, Long> algo){
-//		this.ramCapacity=ramCapacity;
 		this.algo=algo;
 		this.ram = new RAM(ramCapacity);
 	}

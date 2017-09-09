@@ -43,7 +43,7 @@ public class RAM {
 		Page<byte[]> pagesToReturn[] = new Page[pageIds.length];
 		for(int i= 0; i<pageIds.length; i++)
 		{
-			pagesToReturn[i] = pagesMap.get(pageIds[i]);
+			pagesToReturn[i] = getPage(pageIds[i]);
 		}
 		return pagesToReturn;
 	}
