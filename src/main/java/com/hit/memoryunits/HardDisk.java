@@ -3,15 +3,12 @@ import java.io.*;
 import java.util.HashMap;
 
 public class HardDisk {
-	private int _SIZE;
-	private String DEFAULT_FILE_NAME;
+	private int _SIZE=10;
+	private String DEFAULT_FILE_NAME = "src/main/resources/HardDisk_file";
 	private static HardDisk instance = null;
 	private HashMap<Long,Page<byte[]>> pagesInDisk;
 	
-	private HardDisk(int _SIZE, String DEFAULT_FILE_NAME) {
-		this._SIZE = _SIZE;
-		this.DEFAULT_FILE_NAME = DEFAULT_FILE_NAME;
-	}
+	private HardDisk() {}
 	
 	private void readFromDisk() throws FileNotFoundException, IOException{
 		ObjectInputStream in= new ObjectInputStream(new FileInputStream(DEFAULT_FILE_NAME));
@@ -38,7 +35,7 @@ public class HardDisk {
 		
 	public static HardDisk getInstance(){
 		if(instance==null){
-			instance=new HardDisk(1000,"src/main/resources/HardDisk/HDPages");
+			instance=new HardDisk();
 		}
 		return instance;
 	}
