@@ -4,7 +4,6 @@ import java.lang.*;
 import com.hit.algorithm.*;
 
 public class MemoryManagementUnit {
-	//private int ramCapacity;
 	private IAlgoCache<Long, Long> algo;
 	private RAM ram;
 	
