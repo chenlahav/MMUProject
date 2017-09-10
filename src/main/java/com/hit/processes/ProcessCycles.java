@@ -6,7 +6,6 @@ public class ProcessCycles {
 	private List<ProcessCycle> processCycles;
 
 	public ProcessCycles(List<ProcessCycle> processCycles) {
-		super();
 		this.processCycles = processCycles;
 	}
 
