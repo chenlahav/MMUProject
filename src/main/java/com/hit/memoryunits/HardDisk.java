@@ -11,6 +11,7 @@ public class HardDisk {
 	private HardDisk() {
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void readFromDisk() throws FileNotFoundException, IOException{
 		ObjectInputStream in= new ObjectInputStream(new FileInputStream(DEFAULT_FILE_NAME));
 		try{

@@ -3,23 +3,23 @@ package com.hit.processes;
 import java.util.List;
 
 public class RunConfiguration {
-	private List<ProcessCycles> processCycle;
+	private List<ProcessCycles> processesCycles;
 
 	public RunConfiguration(List<ProcessCycles> processCycle) {
 		super();
-		this.processCycle = processCycle;
+		this.processesCycles = processCycle;
 	}
 
 	public List<ProcessCycles> getProcessCycle() {
-		return processCycle;
+		return processesCycles;
 	}
 
 	public void setProcessCycle(List<ProcessCycles> processCycle) {
-		this.processCycle = processCycle;
+		this.processesCycles = processCycle;
 	}
 
 	@Override
 	public String toString() {
-		return "RunConfiguration [processCycle=" + processCycle + "]";
+		return "RunConfiguration [processCycle=" + processesCycles + "]";
 	}
 }

@@ -3,6 +3,8 @@ package com.hit.memoryunits;
 import java.io.Serializable;
 
 public class Page<T> implements Serializable{
+	
+	private static final long serialVersionUID = 1806150186064340976L;
 	private T content;
 	private Long id;
 	
@@ -44,7 +46,8 @@ public class Page<T> implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Page other = (Page) obj;
+		@SuppressWarnings("unchecked")
+		Page<T> other = (Page<T>) obj;
 		if (content == null) {
 			if (other.content != null)
 				return false;

@@ -1,6 +1,5 @@
 package com.hit.memoryunits;
 import java.io.IOException;
-import java.lang.*;
 import com.hit.algorithm.*;
 
 public class MemoryManagementUnit {
@@ -15,6 +14,7 @@ public class MemoryManagementUnit {
 	public Page<byte[]>[] getPages(Long[] pageIds) throws IOException
 	{
 		HardDisk hd = HardDisk.getInstance();
+		@SuppressWarnings("unchecked")
 		Page<byte[]>[] pageToReturn = new Page[pageIds.length];
 		Page<byte[]> moveToHdPage = null;
 		Long idPageReplace = null;

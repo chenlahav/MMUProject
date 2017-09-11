@@ -40,6 +40,7 @@ public class RAM {
 	}
 	
 	public Page<byte[]>[] getPages(Long[] pageIds){
+		@SuppressWarnings("unchecked")
 		Page<byte[]> pagesToReturn[] = new Page[pageIds.length];
 		for(int i= 0; i<pageIds.length; i++)
 		{

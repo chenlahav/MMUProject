@@ -1,9 +1,18 @@
 package com.hit.driver;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
 import com.hit.algorithm.IAlgoCache;
 import com.hit.algorithm.LRUAlgoCacheImpl;
 import com.hit.algorithm.NFUAlgoCacheImpl;
@@ -11,12 +20,11 @@ import com.hit.algorithm.RandomAlgoCacheImpl;
 import com.hit.memoryunits.MemoryManagementUnit;
 import com.hit.processes.ProcessCycles;
 import com.hit.processes.RunConfiguration;
-import com.hit.algorithm.IAlgoCache;
 import com.hit.processes.Process;
 
 public class MMUDriver {
+	private static final String CONFIG_FILE = "src/main/resources/com/hit/config/Configuration.json";
 	public MMUDriver() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static List<Process> createProcesses(List<ProcessCycles> appliocationsScenarios, MemoryManagementUnit mmu) {
@@ -34,8 +42,7 @@ public class MMUDriver {
 		new Thread(cli).start();
 	}
 
-	public static void start(String[] command) {
-		
+	public static void start(String[] command) throws InterruptedException, ExecutionException {
 		int capacity =  Integer.parseInt(command[1]);
 		IAlgoCache<Long, Long> algo = ConvertToAlgo(command[0], capacity);
 		
@@ -47,11 +54,31 @@ public class MMUDriver {
 	}
 
 	public static RunConfiguration readConfigurationFile() {
-		return null;
+		RunConfiguration rc = null;
+		FileReader configFile = null;
+
+		try {
+			configFile = new FileReader(CONFIG_FILE);
+			Gson g = new Gson();
+			rc = g.fromJson(new JsonReader(configFile), RunConfiguration.class);
+		} catch (FileNotFoundException | JsonIOException | JsonSyntaxException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return rc;
 	}	
 
-	public static void runProcesses(List<Process> applications) {
-
+	public static void runProcesses(List<Process> applications) throws InterruptedException, ExecutionException {
+		ExecutorService executor = Executors.newCachedThreadPool();
+		@SuppressWarnings("unchecked")
+		Future<Boolean> futures[] = new Future[applications.size()];
+		for (int i=0; i<applications.size(); i++){
+			futures[i] = executor.submit(applications.get(i));
+		}
+		executor.shutdown();
+		for (int i=0; i<applications.size(); i++){
+			System.out.printf("process %d: %s",applications.get(i).getId(),futures[i].get());
+		}
 	}
 	
 	 private static IAlgoCache<Long, Long> ConvertToAlgo (String algoString, Integer capacity){
