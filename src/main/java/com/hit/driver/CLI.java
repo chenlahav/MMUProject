@@ -2,6 +2,9 @@ package com.hit.driver;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class CLI implements Runnable{
 	public static final String LRU = "LRU";
@@ -9,23 +12,70 @@ public class CLI implements Runnable{
 	public static final String RANDOM = "RANDOM";
 	public static final String START = "start";
 	public static final String STOP = "stop";
-	private InputStream in;
-	private OutputStream out;
+	private Scanner in;
+	private PrintWriter out;
 
 	public CLI(InputStream in, OutputStream out) {
 		super();
-		this.in = in;
-		this.out = out;
+		this.in = new Scanner(in);
+		this.out = new PrintWriter(out);
 	}
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		String[] algoAndCapacity = null;
 		
+		this.out.printf("please press start to start");
+		
+		String buffer = in.nextLine();
+		while(!buffer.toLowerCase().equals("start")){
+			this.out.printf("you enter:"+buffer);
+			this.out.printf("please enter start to start");
+			buffer = in.nextLine();
+		}
+		this.out.printf("you enter:"+buffer);
+		this.out.printf("please enter required algorithm and RAM capacity");
+		buffer = in.nextLine();
+		algoAndCapacity = buffer.split(" ");
+		while((!is_valid_algo(algoAndCapacity[0])) || (!is_integer(algoAndCapacity[1]))){
+			this.out.printf("Enter valid algorithm and capacity");
+			buffer = in.nextLine();
+			algoAndCapacity = buffer.split(" ");
+		}
+		try {
+			MMUDriver.start(algoAndCapacity);
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		
+//		PrintWriter writer = new PrintWriter(this.out);
+//		Boolean valid = false;
+//		
+//		writer.println("Please enter start/stop command");
+//		while (scanner.nextLine() != "start")
+//			writer.println("Please enter start/stop command");
+//		writer.println("Please enter required algorithm and RAM capacity");
+//		scanner.close();
 	}
 	
-	public void write(String s){
-		//TODO
+	public void write(String s){	
+		out.println(s);
+		out.flush();
+	}
+	
+	public boolean is_valid_algo(String s){
+		if(s.toUpperCase().equals(LRU)|| s.toUpperCase().equals(NFU) || s.toUpperCase().equals(RANDOM)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean is_integer(String s){
+		try{
+			Integer.parseInt(s);
+			return true;
+		}catch (Exception e){}
+		return false;
 	}
 
 }
