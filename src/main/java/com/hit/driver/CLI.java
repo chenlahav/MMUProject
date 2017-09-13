@@ -25,20 +25,20 @@ public class CLI implements Runnable{
 	public void run() {
 		String[] algoAndCapacity = null;
 		
-		this.out.printf("please press start to start");
+		write("please press start to start");
 		
 		String buffer = in.nextLine();
 		while(!buffer.toLowerCase().equals("start")){
-			this.out.printf("you enter:"+buffer);
-			this.out.printf("please enter start to start");
+			write("you enter:"+buffer);
+			write("please enter start to start");
 			buffer = in.nextLine();
 		}
-		this.out.printf("you enter:"+buffer);
-		this.out.printf("please enter required algorithm and RAM capacity");
+		write("you enter:"+buffer);
+		write("please enter required algorithm and RAM capacity");
 		buffer = in.nextLine();
 		algoAndCapacity = buffer.split(" ");
 		while((!is_valid_algo(algoAndCapacity[0])) || (!is_integer(algoAndCapacity[1]))){
-			this.out.printf("Enter valid algorithm and capacity");
+			write("Enter valid algorithm and capacity");
 			buffer = in.nextLine();
 			algoAndCapacity = buffer.split(" ");
 		}

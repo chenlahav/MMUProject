@@ -8,6 +8,7 @@ public class Clitest {
 
 	@Test
 	public void test() {
+		System.out.println("hello");
 		CLI cli = new CLI(System.in,System.out);
 		cli.run();
 	}
