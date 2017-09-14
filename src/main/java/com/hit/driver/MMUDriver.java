@@ -77,7 +77,7 @@ public class MMUDriver {
 		}
 		executor.shutdown();
 		for (int i=0; i<applications.size(); i++){
-			System.out.printf("process %d: %s",applications.get(i).getId(),futures[i].get());
+			System.out.printf("process %d: %s\n",applications.get(i).getId(),futures[i].get());
 		}
 	}
 	

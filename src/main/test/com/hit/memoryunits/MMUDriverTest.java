@@ -8,6 +8,7 @@ public class MMUDriverTest {
 	@Test
 	public void test() {
 		RunConfiguration rc = com.hit.driver.MMUDriver.readConfigurationFile();
+		System.out.println(rc);
 	}
 
 }

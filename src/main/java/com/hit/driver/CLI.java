@@ -24,38 +24,38 @@ public class CLI implements Runnable{
 	@Override
 	public void run() {
 		String[] algoAndCapacity = null;
-		
-		write("please press start to start");
-		
+
+		write("please press 'start' to start");
 		String buffer = in.nextLine();
-		while(!buffer.toLowerCase().equals("start")){
-			write("you enter:"+buffer);
-			write("please enter start to start");
-			buffer = in.nextLine();
-		}
-		write("you enter:"+buffer);
-		write("please enter required algorithm and RAM capacity");
-		buffer = in.nextLine();
-		algoAndCapacity = buffer.split(" ");
-		while((!is_valid_algo(algoAndCapacity[0])) || (!is_integer(algoAndCapacity[1]))){
-			write("Enter valid algorithm and capacity");
-			buffer = in.nextLine();
-			algoAndCapacity = buffer.split(" ");
-		}
-		try {
-			MMUDriver.start(algoAndCapacity);
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
+		
+		while (!buffer.toLowerCase().equals(STOP)){
+			while(!buffer.toLowerCase().equals(START)){
+				write("not a valid command \nplease enter 'start' to start");
+				buffer = in.nextLine();
+			}
+		
+			do{
+				write("please enter required algorithm and RAM capacity");
+				buffer = in.nextLine();
+				algoAndCapacity = buffer.split(" ");
+			}while(!(algoAndCapacity.length == 2));
+
+			while((!is_valid_algo(algoAndCapacity[0])) || (!is_integer(algoAndCapacity[1]))){
+				write("not a valid command \nplease enter valid algorithm and capacity");
+				buffer = in.nextLine();
+				algoAndCapacity = buffer.split(" ");
+			}
+			try {
+				MMUDriver.start(algoAndCapacity);
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
 		}
 		
-//		PrintWriter writer = new PrintWriter(this.out);
-//		Boolean valid = false;
-//		
-//		writer.println("Please enter start/stop command");
-//		while (scanner.nextLine() != "start")
-//			writer.println("Please enter start/stop command");
-//		writer.println("Please enter required algorithm and RAM capacity");
-//		scanner.close();
+		write("Thank you");
+		in.close();
+		out.close();
+		return;
 	}
 	
 	public void write(String s){	
