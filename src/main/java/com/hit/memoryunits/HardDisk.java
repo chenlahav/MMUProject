@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class HardDisk {
 	private static final int _SIZE = 10;
-	private  static final String DEFAULT_FILE_NAME = "HardDisk_file";
+	private  static final String DEFAULT_FILE_NAME = "src/main/resources/com/hit/HardDisk/HardDisk_file";
 	private static HardDisk instance = null;
 	private HashMap<Long,Page<byte[]>> pagesInDisk;
 	

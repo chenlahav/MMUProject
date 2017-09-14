@@ -14,7 +14,7 @@ import com.hit.algorithm.LRUAlgoCacheImpl;
 
 public class MemoryManagementUnitTest {
 	@Test
-	public void testPageFault() throws FileNotFoundException, IOException
+	public void testMMU() throws FileNotFoundException, IOException
 	{
 		//create content in the HD file
 		writeHashMapToFile();
