@@ -1,5 +1,6 @@
 package com.hit.processes;
 
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 import com.hit.memoryunits.MemoryManagementUnit;
@@ -20,7 +21,8 @@ public class Process implements Callable<Boolean> {
 	public Boolean call() throws Exception {
 		try {
 			for (ProcessCycle cycle : this.processCycles.getProcessCycles()) {
-				Long[] pagesIds = (Long[]) cycle.getPages().toArray();
+				Object pagesObject[] = cycle.getPages().toArray();
+				Long[] pagesIds = Arrays.copyOf(pagesObject, pagesObject.length, Long[].class);
 				Page<byte[]>[] pages = this.mmu.getPages(pagesIds);
 				for (int i = 0; i < pages.length; i++) {
 					pages[i].setContent(cycle.getData().get(i));

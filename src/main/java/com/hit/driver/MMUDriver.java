@@ -29,7 +29,7 @@ public class MMUDriver {
 
 	public static List<Process> createProcesses(List<ProcessCycles> appliocationsScenarios, MemoryManagementUnit mmu) {
 		List<Process> processesList = new ArrayList<Process>();
-		int id= 1;
+		int id= 0;
 		for (ProcessCycles processCycles : appliocationsScenarios) {
 			Process p1 = new Process(++id, mmu, processCycles);
 			processesList.add(p1);
