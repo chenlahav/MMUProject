@@ -1,21 +1,36 @@
 package com.hit.util;
 
+import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import com.hit.driver.MMUDriver;
+import com.hit.memoryunits.HardDisk;
+
 public class MMULogger {
 
-	public final static String DEFAULT_FILE_NAME = "log.txt";
+	private static MMULogger instance = null;
+	public final static String DEFAULT_FILE_NAME = "Logs/log.txt";
 	private FileHandler handler;
 	
-	private MMULogger(){
-		//complete the rest
+	private MMULogger() throws SecurityException, IOException{
+		handler = new FileHandler(DEFAULT_FILE_NAME);
+		handler.setFormatter(new OnlyMessageFormatter());
+	}
+	
+	public static MMULogger getInstance() throws SecurityException, IOException
+	{
+		if(instance==null){
+			instance=new MMULogger();
+		}
+		return instance;
 	}
 	
 	public synchronized void write(String command, Level level){
-		//complete the rest
+		handler.publish(new LogRecord(level, command));
 	}
 	
 	public class OnlyMessageFormatter extends Formatter
