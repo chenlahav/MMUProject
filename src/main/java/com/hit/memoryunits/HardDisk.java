@@ -1,8 +1,6 @@
 package com.hit.memoryunits;
 import java.io.*;
 import java.util.HashMap;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class HardDisk {
 	private static final int _SIZE = 100;
@@ -10,35 +8,18 @@ public class HardDisk {
 	private static HardDisk instance = null;
 	private HashMap<Long,Page<byte[]>> pagesInDisk;
 	
-	protected Lock lock = new ReentrantLock();
-	
-	private Boolean iCanLock(){
-		Boolean myLock = false;
-		try{
-			myLock = lock.tryLock();
-		}catch(Exception e){
-			e.getStackTrace();
-		}
-		return myLock;
-	}
-	
 	private HardDisk() {
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void readFromDisk() throws FileNotFoundException, IOException{
-		if(iCanLock()){
-			ObjectInputStream in= new ObjectInputStream(new FileInputStream(DEFAULT_FILE_NAME));
-			try{
-				this.pagesInDisk=(HashMap<Long,Page<byte[]>>)in.readObject();
-			}catch (Exception e) {
-				// TODO: handle exception
-			}finally {
-				in.close();
-				lock.unlock();			
-			}
-		}else{
-			System.out.println("the lock is locked");
+		ObjectInputStream in= new ObjectInputStream(new FileInputStream(DEFAULT_FILE_NAME));
+		try{
+			this.pagesInDisk=(HashMap<Long,Page<byte[]>>)in.readObject();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			in.close();		
 		}
 	}
 		

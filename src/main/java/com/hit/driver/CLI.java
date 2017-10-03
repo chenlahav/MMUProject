@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Observable;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 import com.hit.view.View;
 
@@ -26,6 +25,11 @@ public class CLI extends Observable implements Runnable,View{
 	
 	@Override
 	public void run() {
+		start();
+	}
+	
+	@Override
+	public void start() {
 		String[] algoAndCapacity = null;
 
 		write("please press 'start' to start");
@@ -48,17 +52,15 @@ public class CLI extends Observable implements Runnable,View{
 				buffer = in.nextLine();
 				algoAndCapacity = buffer.split(" ");
 			}
-			try {
-				MMUDriver.start(algoAndCapacity);
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
 		}
 		
+		setChanged();
+		notifyObservers(algoAndCapacity);
 		write("Thank you");
 		in.close();
 		out.close();
 		return;
+		
 	}
 	
 	public void write(String s){	
@@ -79,12 +81,6 @@ public class CLI extends Observable implements Runnable,View{
 			return true;
 		}catch (Exception e){}
 		return false;
-	}
-
-	@Override
-	public void start() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

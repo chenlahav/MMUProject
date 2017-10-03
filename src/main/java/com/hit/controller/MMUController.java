@@ -7,14 +7,21 @@ import com.hit.model.Model;
 import com.hit.view.View;
 
 public class MMUController implements Controller,Observer {
+	private Model model;
+	private View view;
 
 	public MMUController(Model model , View view) {
-		// TODO Auto-generated constructor stub
+		this.model = model;
+		this.view = view;
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		if(o == model){
+			//TODO
+		}else if(o == view){
+			//TODO
+		}
 		
 	}
 
