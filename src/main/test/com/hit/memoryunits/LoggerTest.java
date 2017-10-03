@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import com.hit.util.MMULogger;
 
-import junit.framework.Assert;
 
 public class LoggerTest {
 
@@ -16,7 +15,8 @@ public class LoggerTest {
 	public void test() {
 		try {
 			MMULogger logger = MMULogger.getInstance();
-			logger.write("test1", Level.INFO);
+			for(int i=0; i<3;i++)
+				logger.write("test1", Level.INFO);
 			assertEquals(0, 0);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block

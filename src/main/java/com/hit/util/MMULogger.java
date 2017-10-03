@@ -3,12 +3,9 @@ package com.hit.util;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-import com.hit.driver.MMUDriver;
-import com.hit.memoryunits.HardDisk;
 
 public class MMULogger {
 
@@ -31,6 +28,7 @@ public class MMULogger {
 	
 	public synchronized void write(String command, Level level){
 		handler.publish(new LogRecord(level, command));
+		
 	}
 	
 	public class OnlyMessageFormatter extends Formatter
@@ -39,7 +37,7 @@ public class MMULogger {
 
 		@Override
 		public String format(LogRecord record) {
-			return record.getMessage();
+			return record.getMessage()+"\n";
 		}
 		
 	}
