@@ -3,10 +3,13 @@ package com.hit.driver;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Observable;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public class CLI implements Runnable{
+import com.hit.view.View;
+
+public class CLI extends Observable implements Runnable,View{
 	public static final String LRU = "LRU";
 	public static final String NFU = "NFU";
 	public static final String RANDOM = "RANDOM";
@@ -76,6 +79,12 @@ public class CLI implements Runnable{
 			return true;
 		}catch (Exception e){}
 		return false;
+	}
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
