@@ -1,13 +1,11 @@
 package com.hit.driver;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Observable;
 import java.util.Scanner;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.hit.util.MMULogger;
 import com.hit.view.View;
@@ -36,10 +34,14 @@ public class CLI extends Observable implements Runnable,View{
 	public void start() {
 		String[] algoAndCapacity = null;
 
-		write("please press 'start' to start");
-		String buffer = in.nextLine();
+		//write("please press 'start' to start");
+		String buffer = " ";
 		
 		while (!buffer.toLowerCase().equals(STOP)){
+			write("please press 'start' to start");
+			buffer = in.nextLine();
+			if(buffer.equals(STOP))
+				break;
 			while(!buffer.toLowerCase().equals(START)){
 				write("not a valid command \nplease enter 'start' to start");
 				buffer = in.nextLine();
@@ -52,19 +54,21 @@ public class CLI extends Observable implements Runnable,View{
 			}while(!(algoAndCapacity.length == 2));
 
 			while((!is_valid_algo(algoAndCapacity[0])) || (!is_integer(algoAndCapacity[1]))){
+				MMULogger.getInstance().write("CLI: not a valid command entered", Level.SEVERE);
 				write("not a valid command \nplease enter valid algorithm and capacity");
 				buffer = in.nextLine();
 				algoAndCapacity = buffer.split(" ");
 			}
+			write("Thank you");
+			MMULogger.getInstance().write("RC: "+algoAndCapacity[1], Level.INFO);
+			setChanged();
+			notifyObservers(algoAndCapacity);
 		}
-		
-		write("Thank you");
+		System.out.println("stopped");
 		in.close();
 		out.close();
-		MMULogger.getInstance().write("RC: "+algoAndCapacity[1], Level.INFO);
-		setChanged();
-		notifyObservers(algoAndCapacity);
 		return;
+
 	}
 	
 	public void write(String s){	

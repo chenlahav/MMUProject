@@ -2,9 +2,11 @@ package com.hit.processes;
 
 import java.util.Arrays;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
 
 import com.hit.memoryunits.MemoryManagementUnit;
 import com.hit.memoryunits.Page;
+import com.hit.util.MMULogger;
 
 public class Process implements Callable<Boolean> {
 	private int id;
@@ -20,12 +22,13 @@ public class Process implements Callable<Boolean> {
 	@Override
 	public Boolean call() throws Exception {
 		try {
-			for (ProcessCycle cycle : this.processCycles.getProcessCycles()) {
+			for (ProcessCycle cycle : this.processCycles.getProcessCycles()) {	
 				Object pagesObject[] = cycle.getPages().toArray();
 				Long[] pagesIds = Arrays.copyOf(pagesObject, pagesObject.length, Long[].class);
 				Page<byte[]>[] pages = this.mmu.getPages(pagesIds);
 				for (int i = 0; i < pages.length; i++) {
 					pages[i].setContent(cycle.getData().get(i));
+					MMULogger.getInstance().write("GP:"+this.getId()+" "+Arrays.toString(pages[i].getContent()), Level.INFO);
 				}
 
 				Thread.sleep(cycle.getSleepMs());

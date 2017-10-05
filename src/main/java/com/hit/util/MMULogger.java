@@ -10,12 +10,13 @@ import java.util.logging.LogRecord;
 public class MMULogger {
 
 	private static MMULogger instance = null;
-	public final static String DEFAULT_FILE_NAME = "logs/log.txt";
+	public final static String DEFAULT_FILE_NAME = "logs/log1.txt";
 	private FileHandler handler;
 	
 	private MMULogger(){
 		try {
 			handler = new FileHandler(DEFAULT_FILE_NAME);
+			handler.setFormatter(new OnlyMessageFormatter());
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -23,7 +24,6 @@ public class MMULogger {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		handler.setFormatter(new OnlyMessageFormatter());
 	}
 	
 	public static MMULogger getInstance()
@@ -48,5 +48,11 @@ public class MMULogger {
 			return record.getMessage()+"\n";
 		}
 		
+	}
+	
+	public void close(){
+		if(handler != null){
+			handler.close();
+		}
 	}
 }

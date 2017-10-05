@@ -21,6 +21,7 @@ public class HardDisk {
 			this.pagesInDisk=(HashMap<Long,Page<byte[]>>)in.readObject();
 		}catch (Exception e) {
 			// TODO: handle exception
+			MMULogger.getInstance().write("HD:can't read from disk", Level.SEVERE);
 		}finally {
 			in.close();		
 		}
@@ -32,7 +33,7 @@ public class HardDisk {
 			out.writeObject(this.pagesInDisk);
 			out.flush();
 		}catch (Exception e) {
-			// TODO: handle exception
+			MMULogger.getInstance().write("HD:can't write to disk", Level.SEVERE);
 		}finally {
 			out.close();
 		}
@@ -60,7 +61,7 @@ public class HardDisk {
 	
 	public Page<byte[]> pageReplacement(Page<byte[]> moveToHdPage, Long moveToRamId) throws FileNotFoundException, IOException{
 		readFromDisk();
-		MMULogger.getInstance().write("PR:MTH "+moveToHdPage+" MTR "+moveToRamId, Level.INFO);
+		MMULogger.getInstance().write("PR:MTH "+moveToHdPage.getPageId()+" MTR "+moveToRamId, Level.INFO);
 		if(this.pagesInDisk.containsKey(moveToHdPage.getPageId())){
 			this.pagesInDisk.put(moveToHdPage.getPageId(), moveToHdPage);
 		}else{

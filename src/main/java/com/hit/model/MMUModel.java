@@ -9,6 +9,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -22,6 +24,7 @@ import com.hit.memoryunits.MemoryManagementUnit;
 import com.hit.processes.Process;
 import com.hit.processes.ProcessCycles;
 import com.hit.processes.RunConfiguration;
+import com.hit.util.MMULogger;
 
 public class MMUModel extends Observable implements Model {
 
@@ -54,6 +57,7 @@ public class MMUModel extends Observable implements Model {
 			Gson g = new Gson();
 			rc = g.fromJson(new JsonReader(configFile), RunConfiguration.class);
 		} catch (FileNotFoundException | JsonIOException | JsonSyntaxException e) {
+			MMULogger.getInstance().write(e.getMessage(), Level.SEVERE);
 			System.err.println(e.getMessage());
 		}
 
@@ -104,19 +108,19 @@ public class MMUModel extends Observable implements Model {
 		MemoryManagementUnit mmu = new MemoryManagementUnit(capacity, algo);
 		RunConfiguration runConfig = readConfigurationFile();
 		List<ProcessCycles> processCycles = runConfig.getProcessCycle();
+		MMULogger.getInstance().write("PN:"+processCycles.size(), Level.SEVERE);
 		List<Process> processes = createProcesses(processCycles, mmu);
 		try {
 			runProcesses(processes);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
+			MMULogger.getInstance().write(e.getStackTrace().toString() , Level.SEVERE);
 			e.printStackTrace();
 		}
 		
 		setChanged();
 		notifyObservers(this);
+		MMULogger.getInstance().close();
 	}
 	
 	public void setConfiguration(List<String> configuration){
