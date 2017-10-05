@@ -1,11 +1,15 @@
 package com.hit.driver;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Observable;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.hit.util.MMULogger;
 import com.hit.view.View;
 
 public class CLI extends Observable implements Runnable,View{
@@ -54,13 +58,13 @@ public class CLI extends Observable implements Runnable,View{
 			}
 		}
 		
-		setChanged();
-		notifyObservers(algoAndCapacity);
 		write("Thank you");
 		in.close();
 		out.close();
+		MMULogger.getInstance().write("RC: "+algoAndCapacity[1], Level.INFO);
+		setChanged();
+		notifyObservers(algoAndCapacity);
 		return;
-		
 	}
 	
 	public void write(String s){	

@@ -2,7 +2,7 @@ package com.hit.memoryunits;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;import java.util.logging.Level;
+import java.util.logging.Level;
 
 import org.junit.Test;
 
@@ -13,18 +13,8 @@ public class LoggerTest {
 
 	@Test
 	public void test() {
-		try {
-			MMULogger logger = MMULogger.getInstance();
-			for(int i=0; i<3;i++)
-				logger.write("test1", Level.INFO);
-			assertEquals(0, 0);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		MMULogger.getInstance().write("test1", Level.INFO);
+		assertEquals(0, 0);
 	}
 
 }

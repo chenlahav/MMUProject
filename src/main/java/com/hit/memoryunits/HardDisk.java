@@ -1,6 +1,9 @@
 package com.hit.memoryunits;
 import java.io.*;
 import java.util.HashMap;
+import java.util.logging.Level;
+
+import com.hit.util.MMULogger;
 
 public class HardDisk {
 	private static final int _SIZE = 100;
@@ -44,6 +47,7 @@ public class HardDisk {
 	
 	public Page<byte[]> pageFault(Long id) throws FileNotFoundException, IOException{	
 		readFromDisk();
+		MMULogger.getInstance().write("PF: "+id, Level.INFO);
 		Page<byte[]> currPage= pagesInDisk.get(id);
 		if((currPage == null)&&(this.pagesInDisk.size()<_SIZE)){
 			currPage = new Page<byte[]>(id, null);
@@ -56,6 +60,7 @@ public class HardDisk {
 	
 	public Page<byte[]> pageReplacement(Page<byte[]> moveToHdPage, Long moveToRamId) throws FileNotFoundException, IOException{
 		readFromDisk();
+		MMULogger.getInstance().write("PR:MTH "+moveToHdPage+" MTR "+moveToRamId, Level.INFO);
 		if(this.pagesInDisk.containsKey(moveToHdPage.getPageId())){
 			this.pagesInDisk.put(moveToHdPage.getPageId(), moveToHdPage);
 		}else{
