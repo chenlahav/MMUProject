@@ -18,13 +18,13 @@ public class TablePanel extends JPanel{
 	
 	public TablePanel() {
 		this.setLayout(new BorderLayout());
-		table= new JTable(5,20);
+		table= new JTable(5,25);
 		table.setFont(new Font("Arial",Font.BOLD,10));
 		table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
 		JTableHeader th = table.getTableHeader();
 		TableColumnModel tcm = th.getColumnModel();
 		
-		for(int i=0;i<20;i++)
+		for(int i=0;i<25;i++)
 		{
 			TableColumn tc = tcm.getColumn(i);
 			tc.setHeaderValue(" ");

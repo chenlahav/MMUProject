@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -42,15 +43,16 @@ public class ProcessesPanel extends JPanel implements ListSelectionListener{
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	@SuppressWarnings({ "rawtypes", "deprecation" })
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
 		if(arg0.getValueIsAdjusting()==false){
 			JList source = (JList) arg0.getSource();
-			Object[] values = source.getSelectedValues();
+			@SuppressWarnings("unchecked")
+			List<Object> values = source.getSelectedValuesList();
 			HashMap<String,Integer> processes = new HashMap<String,Integer>();
-			for (int i = 0; i < values.length; i++) {
-				String processnum = (String) values[i];
+			for (int i = 0; i < values.size(); i++) {
+				String processnum = (String) values.get(i);
 				processes.put(processnum.substring(processnum.indexOf(" ")+1), Integer.parseInt(processnum.substring(processnum.indexOf(" ")+1)));
 			}
 			view.setProcessesSelected(processes);

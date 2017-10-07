@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 
-
 import javax.swing.JFrame;
 
 public class MMUView extends Observable implements View {
@@ -39,10 +38,13 @@ public class MMUView extends Observable implements View {
 		tablePanel.setBounds(10, 10, 670, 175);
 		container.add(tablePanel);
 		
+		i=1;
+		setNumOfProcesses(logFile.get(i));
+		i++;
+		
 		ProcessesPanel processesPanel = new ProcessesPanel(numOfProcesses,this);    	//Processes list panel 
 		processesPanel.setBounds(700, 100, 150, 200);
-		container.add(processesPanel);
-		i=0;
+		container.add(processesPanel);	
 		
 		ButtonsPlayPanel playpanel = new ButtonsPlayPanel(this);   			//Play and Play all buttons
 		playpanel.setBounds(30, 200, 200, 200);
@@ -55,13 +57,6 @@ public class MMUView extends Observable implements View {
 		
 		Mframe.pack();
 		Mframe.setVisible(true);
-	}
-	
-	public static void main(String[] args) {
-		MMUView mf = new MMUView();
-		mf.setNumOfProcesses(5);
-		mf.start();
-
 	}
 	
 	@Override
@@ -77,86 +72,72 @@ public class MMUView extends Observable implements View {
 		this.logFile =log;
 	}
 	
-	public void setNumOfProcesses(int numOfProcesses){
-		this.numOfProcesses = numOfProcesses;
+	public void setNumOfProcesses(String numOfProcesses){
+		String s = numOfProcesses.substring(3);
+		this.numOfProcesses = Integer.parseInt(s);
 	}
 	
 	public void setProcessesSelected(HashMap<String,Integer> processesSelected){
 		this.processesSelected = processesSelected;
 	}
 	
-	public void playLog()
-	{	
-		if(i == numOfProcesses){
-			System.out.println("No more commands");//need to be change to a panel!!!!!!!
+	public void playLog(){
+		if (i==logFile.size()){
+			System.out.println("No more commands");
+			return;
 		}
-		else if(processesSelected==null)
+		if(processesSelected==null){
 			System.out.println("No Process was selected");
-		else
-		{
-			if(logFile.get(i).contains("GP")) //if there was a Get Page line
-			{
-				String processnum = logFile.get(i).substring(logFile.get(i).indexOf("P")+3,logFile.get(i).indexOf(" ")); //extracting the process number from the string
-				String pagenum = logFile.get(i).substring(logFile.get(i).indexOf(" ")+1,logFile.get(i).indexOf("["));  //extracting the page number from the string
-				if(processesSelected.containsKey(processnum))//if it is a process the user wish to see
-				{
-					TablePanel.editColumn(Integer.parseInt(pagenum),pagenum,logFile.get(i).substring(logFile.get(i).indexOf("[")+1, logFile.get(i).indexOf("]")));
-				}
-			}
-			else if(logFile.get(i).contains("PR"))
-			{
-				PageFaultReplacementAmountPanel.setPageReplacementCount(PageFaultReplacementAmountPanel.getPageReplacementCount()+1);  //incrementing the Page-Replacement count
-				String pagetoremove = logFile.get(i).substring(logFile.get(i).indexOf(" ")+1,logFile.get(i).indexOf("MTR")-1);//Extracting the MTH page
-				String pageinsidetable = (String) TablePanel.table.getTableHeader().getColumnModel().getColumn(Integer.parseInt(pagetoremove)).getHeaderValue();  //getting the value at that place on the table
-				if(pagetoremove.equals(pageinsidetable)) //if the page is inside the table , we will clear it's column.
-				{
-					TablePanel.editColumn(Integer.parseInt(pagetoremove)," ","0,0,0,0,0");
-				}
-
-			}
-			else if(logFile.get(i).contains("PF"))
-			{PageFaultReplacementAmountPanel.setPageFaultCount(PageFaultReplacementAmountPanel.getPageFaultCount()+1);}  //changing the Page-Fault count
-
-			i++;
+			return;
 		}
+		if (logFile.get(i).contains("PF")){		//page fault
+			PageFaultReplacementAmountPanel.setPageFaultCount(PageFaultReplacementAmountPanel.getPageFaultCount()+1);  //changing the Page-Fault count
+			
+		}else if (logFile.get(i).contains("PR")){	//page replacement
+			PageFaultReplacementAmountPanel.setPageReplacementCount(PageFaultReplacementAmountPanel.getPageReplacementCount()+1);  //changing the Page-replacement count
+			String pagetoremove = logFile.get(i).substring(logFile.get(i).indexOf(" ")+1,logFile.get(i).indexOf("MTR")-1);//Extracting the MTH page
+			TablePanel.editColumn(Integer.parseInt(pagetoremove)," ","0,0,0,0,0");
+			
+			
+		}else if(logFile.get(i).contains("GP")){	//get pages
+			String processnum = logFile.get(i).substring(logFile.get(i).indexOf("P")+3,logFile.get(i).indexOf(" ")); //extracting the process number from the string
+			String pagenum = logFile.get(i).substring(logFile.get(i).indexOf(" ")+1,logFile.get(i).indexOf("[")-1);  //extracting the page number from the string
+			if(processesSelected.containsKey(processnum)){	//if it is a process the user wish to see
+				TablePanel.editColumn(Integer.parseInt(pagenum),pagenum,logFile.get(i).substring(logFile.get(i).indexOf("[")+1, logFile.get(i).indexOf("]")));
+			}
+				
+		}
+		i++;
 	}
 	
-	public void playAllLog()
-	{
-		if(i==logFile.size())
-			System.out.println("No more commands");//need to be change to a panel!!!!!!!
-		else if(processesSelected==null)
+	public void playAllLog() {
+		if(i==logFile.size()){
+			System.out.println("No more commands");
+			return;
+		}
+		if(processesSelected==null){
 			System.out.println("No Process was selected");
-		else
-		{
-			for(;i<logFile.size();i++)
-			{
-				if(logFile.get(i).contains("GP")) //if there was a Get Page line
-				{
-					String processnum = logFile.get(i).substring(logFile.get(i).indexOf("P")+3,logFile.get(i).indexOf(" ")); //extracting the process number from the string
-					String pagenum = logFile.get(i).substring(logFile.get(i).indexOf(" ")+1,logFile.get(i).indexOf("["));  //extracting the page number from the string
-					if(processesSelected.containsKey(processnum))//if it is a process the user wish to see
-					{
-						TablePanel.editColumn(Integer.parseInt(pagenum),pagenum,logFile.get(i).substring(logFile.get(i).indexOf("[")+1, logFile.get(i).indexOf("]")));
-					}
+			return;
+		}
+		for(;i<logFile.size();i++) {
+			if (logFile.get(i).contains("PF")){		//page fault
+				PageFaultReplacementAmountPanel.setPageFaultCount(PageFaultReplacementAmountPanel.getPageFaultCount()+1);  //changing the Page-Fault count
+				
+			}else if (logFile.get(i).contains("PR")){	//page replacement
+				PageFaultReplacementAmountPanel.setPageReplacementCount(PageFaultReplacementAmountPanel.getPageReplacementCount()+1);  //changing the Page-replacement count
+				String pagetoremove = logFile.get(i).substring(logFile.get(i).indexOf(" ")+1,logFile.get(i).indexOf("MTR")-1);//Extracting the MTH page
+				TablePanel.editColumn(Integer.parseInt(pagetoremove)," ","0,0,0,0,0");
+				
+				
+			}else if(logFile.get(i).contains("GP")){	//get pages
+				String processnum = logFile.get(i).substring(logFile.get(i).indexOf("P")+3,logFile.get(i).indexOf(" ")); //extracting the process number from the string
+				String pagenum = logFile.get(i).substring(logFile.get(i).indexOf(" ")+1,logFile.get(i).indexOf("[")-1);  //extracting the page number from the string
+				if(processesSelected.containsKey(processnum)){	//if it is a process the user wish to see
+					TablePanel.editColumn(Integer.parseInt(pagenum),pagenum,logFile.get(i).substring(logFile.get(i).indexOf("[")+1, logFile.get(i).indexOf("]")));
 				}
-				if(logFile.get(i).contains("PR"))
-				{
-					PageFaultReplacementAmountPanel.setPageReplacementCount(PageFaultReplacementAmountPanel.getPageReplacementCount()+1);  //changing the Page-Replacement count
-					String pagetoremove = logFile.get(i).substring(logFile.get(i).indexOf(" ")+1,logFile.get(i).indexOf("MTR")-1);//Extracting the MTH page
-					String pageinsidetable = (String) TablePanel.table.getTableHeader().getColumnModel().getColumn(Integer.parseInt(pagetoremove)).getHeaderValue();  //getting the value at that place on the table
-					if(pagetoremove.equals(pageinsidetable)) //if the page is inside the table , we will clear it's column.
-					{
-						TablePanel.editColumn(Integer.parseInt(pagetoremove)," ","0,0,0,0,0");
-					}
-
-				}
-				else if(logFile.get(i).contains("PF"))
-				{PageFaultReplacementAmountPanel.setPageFaultCount(PageFaultReplacementAmountPanel.getPageFaultCount()+1);}
-
+					
 			}
 		}
 
 	}
-
 }

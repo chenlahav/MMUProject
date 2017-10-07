@@ -6,16 +6,27 @@ import java.util.logging.Level;
 import com.hit.util.MMULogger;
 
 public class HardDisk {
-	private static final int _SIZE = 100;
+	private static final int _SIZE = 500;
 	private  static final String DEFAULT_FILE_NAME = "src/main/resources/com/hit/HardDisk/HardDisk_file";
 	private static HardDisk instance = null;
 	private HashMap<Long,Page<byte[]>> pagesInDisk;
 	
 	private HardDisk() {
+		this.pagesInDisk = new HashMap<>();
+		File file = new File(DEFAULT_FILE_NAME);
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void readFromDisk() throws FileNotFoundException, IOException{
+		File yourFile = new File(DEFAULT_FILE_NAME);
+		if (yourFile.length() == 0)
+			return;
 		ObjectInputStream in= new ObjectInputStream(new FileInputStream(DEFAULT_FILE_NAME));
 		try{
 			this.pagesInDisk=(HashMap<Long,Page<byte[]>>)in.readObject();
@@ -48,7 +59,7 @@ public class HardDisk {
 	
 	public Page<byte[]> pageFault(Long id) throws FileNotFoundException, IOException{	
 		readFromDisk();
-		MMULogger.getInstance().write("PF: "+id, Level.INFO);
+		MMULogger.getInstance().write("PF:"+id, Level.INFO);
 		Page<byte[]> currPage= pagesInDisk.get(id);
 		if((currPage == null)&&(this.pagesInDisk.size()<_SIZE)){
 			currPage = new Page<byte[]>(id, null);

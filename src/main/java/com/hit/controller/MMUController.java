@@ -1,13 +1,14 @@
 package com.hit.controller;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.hit.driver.CLI;
 import com.hit.model.MMUModel;
 import com.hit.model.Model;
+import com.hit.view.MMUView;
 import com.hit.view.View;
 
 public class MMUController implements Controller,Observer {
@@ -26,9 +27,12 @@ public class MMUController implements Controller,Observer {
 			((MMUModel)model).setConfiguration(Arrays.asList(configuration));
 			model.start();
 		}
-		if(o == model){
-			//TODO
-		}else if(o == view){
+		if(o instanceof Model){
+			@SuppressWarnings("unchecked")
+			List<String> logFile = (List<String>)arg;
+			((MMUView)view).setLogFile(logFile);
+			view.start();
+		}else if(o instanceof View){
 			//TODO
 		}
 		

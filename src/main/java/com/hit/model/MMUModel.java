@@ -5,12 +5,12 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -31,7 +31,9 @@ public class MMUModel extends Observable implements Model {
 	private static final String CONFIG_FILE = "src/main/resources/com/hit/config/Configuration.json";
 	public int numProcesses;
 	public int ramCapacity;
-	List<String> configuration;
+	private List<String> configuration;
+	private List<String> logFile;
+	
 	
 	
 	public MMUModel(List<String> configuration) {
@@ -113,18 +115,34 @@ public class MMUModel extends Observable implements Model {
 		try {
 			runProcesses(processes);
 		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
 			MMULogger.getInstance().write(e.getStackTrace().toString() , Level.SEVERE);
 			e.printStackTrace();
 		}
 		
+		readLogFile();
+		
 		setChanged();
-		notifyObservers(this);
+		notifyObservers(this.logFile);
 		MMULogger.getInstance().close();
 	}
 	
 	public void setConfiguration(List<String> configuration){
 		this.configuration = configuration;
+	}
+	
+	public void readLogFile(){
+		Scanner sc;
+		try {
+			sc = new Scanner(new FileReader("Logs/log.txt"));
+			this.logFile = new ArrayList<>();
+			while (sc.hasNextLine()) {
+				logFile.add(sc.nextLine());
+			}
+			sc.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			MMULogger.getInstance().write(e.getStackTrace().toString() , Level.SEVERE);
+		}
 	}
 
 }

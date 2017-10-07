@@ -28,7 +28,7 @@ public class Process implements Callable<Boolean> {
 				Page<byte[]>[] pages = this.mmu.getPages(pagesIds);
 				for (int i = 0; i < pages.length; i++) {
 					pages[i].setContent(cycle.getData().get(i));
-					MMULogger.getInstance().write("GP:"+this.getId()+" "+Arrays.toString(pages[i].getContent()), Level.INFO);
+					MMULogger.getInstance().write("GP:p"+this.getId()+" "+pages[i].getPageId()+" "+Arrays.toString(pages[i].getContent()), Level.INFO);
 				}
 
 				Thread.sleep(cycle.getSleepMs());

@@ -60,7 +60,7 @@ public class CLI extends Observable implements Runnable,View{
 				algoAndCapacity = buffer.split(" ");
 			}
 			write("Thank you");
-			MMULogger.getInstance().write("RC: "+algoAndCapacity[1], Level.INFO);
+			MMULogger.getInstance().write("RC:"+algoAndCapacity[1], Level.INFO);
 			setChanged();
 			notifyObservers(algoAndCapacity);
 		}
