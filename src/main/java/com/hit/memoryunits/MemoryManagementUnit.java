@@ -11,7 +11,7 @@ public class MemoryManagementUnit {
 		this.ram = new RAM(ramCapacity);
 	}
 
-	public Page<byte[]>[] getPages(Long[] pageIds) throws IOException
+	public synchronized Page<byte[]>[] getPages(Long[] pageIds) throws IOException
 	{
 		HardDisk hd = HardDisk.getInstance();
 		@SuppressWarnings("unchecked")

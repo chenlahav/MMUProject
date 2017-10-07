@@ -10,7 +10,7 @@ import java.util.logging.LogRecord;
 public class MMULogger {
 
 	private static MMULogger instance = null;
-	public final static String DEFAULT_FILE_NAME = "logs/log1.txt";
+	public final static String DEFAULT_FILE_NAME = "logs/log.txt";
 	private FileHandler handler;
 	
 	private MMULogger(){
