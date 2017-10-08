@@ -83,7 +83,7 @@ public class MMUModel extends Observable implements Model {
 		
 		IAlgoCache<Long,Long > algo = null ;
 		
-		switch (algoString) {
+		switch (algoString.toUpperCase()) {
 			case "LRU":{
 				algo = new LRUAlgoCacheImpl<>(capacity);
 				break;

@@ -17,7 +17,6 @@ public class MMUView extends Observable implements View {
 	private int i;
 	
 	public MMUView() {
-		// TODO Auto-generated constructor stub
 	}
 
 	private void createAndShowGUI() {
@@ -52,7 +51,7 @@ public class MMUView extends Observable implements View {
 		container.add(playpanel);
 		
 		PageFaultReplacementAmountPanel PFRFPanel = new PageFaultReplacementAmountPanel(); // PF/PR counters panel 
-		PFRFPanel.setBounds(690,50,200,150);
+		//PFRFPanel.setBounds(690,50,200,150);
 		container.add(PFRFPanel);
 		
 		Mframe.pack();

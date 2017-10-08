@@ -33,8 +33,6 @@ public class CLI extends Observable implements Runnable,View{
 	@Override
 	public void start() {
 		String[] algoAndCapacity = null;
-
-		//write("please press 'start' to start");
 		String buffer = " ";
 		
 		while (!buffer.toLowerCase().equals(STOP)){
