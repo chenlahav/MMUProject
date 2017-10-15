@@ -1,14 +1,21 @@
 package com.hit.view;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import com.hit.util.MMULogger;
 
 public class MMUView extends Observable implements View {
 	private List<String> logFile;
@@ -34,25 +41,24 @@ public class MMUView extends Observable implements View {
 		Container container = Mframe.getContentPane();
 		
 		TablePanel tablePanel = new TablePanel();   	//Table panel 
-		tablePanel.setBounds(10, 10, 670, 175);
-		container.add(tablePanel);
-		
+		//tablePanel.setBounds(10, 10, 670, 175);
+		container.add(tablePanel,BorderLayout.CENTER);
 		i=1;
 		setNumOfProcesses(logFile.get(i));
 		i++;
 		
 		ProcessesPanel processesPanel = new ProcessesPanel(numOfProcesses,this);    	//Processes list panel 
 		processesPanel.setBounds(700, 100, 150, 200);
-		container.add(processesPanel);	
+		container.add(processesPanel,BorderLayout.EAST);	
 		
 		ButtonsPlayPanel playpanel = new ButtonsPlayPanel(this);   			//Play and Play all buttons
 		playpanel.setBounds(30, 200, 200, 200);
 		playpanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		container.add(playpanel);
+		container.add(playpanel,BorderLayout.SOUTH);
 		
 		PageFaultReplacementAmountPanel PFRFPanel = new PageFaultReplacementAmountPanel(); // PF/PR counters panel 
 		//PFRFPanel.setBounds(690,50,200,150);
-		container.add(PFRFPanel);
+		container.add(PFRFPanel,BorderLayout.EAST);
 		
 		Mframe.pack();
 		Mframe.setVisible(true);
