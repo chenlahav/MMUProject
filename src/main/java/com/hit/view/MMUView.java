@@ -30,7 +30,7 @@ public class MMUView extends Observable implements View {
 		//Create and set up the window.
 		JFrame Mframe = new JFrame("MMU Simulator");
 		Mframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		Mframe.setPreferredSize(new Dimension(3000,300));
+		Mframe.setPreferredSize(new Dimension(2500,300));
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim =tk.getScreenSize();
 		int xPos = (dim.width/4)-(Mframe.getWidth()/4);
