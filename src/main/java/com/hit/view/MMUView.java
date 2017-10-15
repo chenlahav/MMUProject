@@ -30,7 +30,7 @@ public class MMUView extends Observable implements View {
 		//Create and set up the window.
 		JFrame Mframe = new JFrame("MMU Simulator");
 		Mframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		Mframe.setPreferredSize(new Dimension(1000,500));
+		Mframe.setPreferredSize(new Dimension(3000,300));
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim =tk.getScreenSize();
 		int xPos = (dim.width/4)-(Mframe.getWidth()/4);
@@ -49,7 +49,7 @@ public class MMUView extends Observable implements View {
 		
 		ProcessesPanel processesPanel = new ProcessesPanel(numOfProcesses,this);    	//Processes list panel 
 		processesPanel.setBounds(700, 100, 150, 200);
-		container.add(processesPanel,BorderLayout.EAST);	
+		container.add(processesPanel,BorderLayout.WEST);	
 		
 		ButtonsPlayPanel playpanel = new ButtonsPlayPanel(this);   			//Play and Play all buttons
 		playpanel.setBounds(30, 200, 200, 200);
