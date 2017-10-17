@@ -1,21 +1,15 @@
 package com.hit.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GraphicsConfiguration;
-import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import com.hit.util.MMULogger;
 
 public class MMUView extends Observable implements View {
 	private List<String> logFile;
